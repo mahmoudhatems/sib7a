@@ -9,7 +9,7 @@ class Sib7a extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       debugShowCheckedModeBanner: true,
       home: HomePage(),
     );
