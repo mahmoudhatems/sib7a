@@ -14,6 +14,7 @@ int goal = 0;
 int colorHix = 0xffEEC6FF;
 int counter = 0;
 int time = 0;
+bool isActive = false;
 
 class _HomePageState extends State<HomePage> {
   setcount(int value) async {
@@ -43,12 +44,10 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-  rsetToZiro({bool? resetGoal}) {
-    setcount(0);
-    setGoal(0);
-    if (resetGoal == true) {
-      setTime(0);
-    }
+  rsetToZiro({bool? resetGoal = false}) {
+    setcount(counter = 0);
+    setTime(time = 0);
+    resetGoal == true ? setGoal(goal = 0) : null;
   }
 
   @override
@@ -80,7 +79,8 @@ class _HomePageState extends State<HomePage> {
         ),
         appBar: AppBar(
           actions: [
-            IconButton(onPressed: () {}, icon: const Icon(Icons.color_lens_outlined))
+            IconButton(
+                onPressed: () {}, icon: const Icon(Icons.color_lens_outlined))
           ],
           backgroundColor: mainColor,
         ),
@@ -243,24 +243,25 @@ class _HomePageState extends State<HomePage> {
                 SizedBox(
                   height: 10,
                 ),
-                Text('$counter', style: TextStyle(color: Colors.black, fontSize: 22)),
+                Text('$counter',
+                    style: TextStyle(color: Colors.black, fontSize: 22)),
                 SizedBox(
                   height: 10,
                 ),
                 CircularPercentIndicator(
                   progressColor: mainColor,
-                  startAngle: 0.0,
+                  startAngle:0,
                   radius: 80.0,
                   animation: true,
                   animationDuration: 1100,
                   lineWidth: 10.0,
-                  percent: counter / goal,
+                  percent: goal == 0 ? 0.1 : (counter / goal).clamp(0.0, 1.0),
                   center: GestureDetector(
                     onTap: () {
                       setState(() {
                         if (counter >= goal) {
                           setTime(time + 1);
-                          setcount(1);
+                          setcount(counter = 1);
                         } else {
                           setcount(counter + 1);
                         }
@@ -277,12 +278,14 @@ class _HomePageState extends State<HomePage> {
                   height: 10,
                 ),
                 Text('التكرار:$time',
-                    style: const TextStyle(color: Color(0xff363435), fontSize: 20)),
+                    style: const TextStyle(
+                        color: Color(0xff363435), fontSize: 20)),
                 const SizedBox(
                   height: 10,
                 ),
                 Text('المجموع:${time * goal + counter}',
-                    style: const TextStyle(color: Color(0xff363435), fontSize: 20)),
+                    style: const TextStyle(
+                        color: Color(0xff363435), fontSize: 20)),
                 const SizedBox(
                   height: 20,
                 ),
